@@ -43,6 +43,9 @@ const Colors = {
 	red2: "#D91C1F",
 	red3: "#E84A4D",
 	red6: "#D91C1F",
+	violet: "#5a2eab",
+	pink: "#c74894",
+	green: "#32a83c",
 };
 
 export default Colors;
