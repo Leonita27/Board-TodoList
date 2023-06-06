@@ -51,6 +51,20 @@ const TaskComponent = ({ title, description, task, tasks, setTasks }) => {
 		setTasks(updatedItem);
 	};
 
+	const handleSubmit = (taskToUpdateCompleted) => {
+		const completedItem = tasks.map((task) => {
+			return task.id === taskToUpdateCompleted.id
+				? {
+						...task,
+						status: "closed",
+				  }
+				: task;
+		});
+		console.log(completedItem, "updated");
+		localStorage.setItem("tasks", JSON.stringify(completedItem));
+		setTasks(completedItem);
+	};
+
 	return (
 		<div
 			ref={drag}
@@ -62,21 +76,34 @@ const TaskComponent = ({ title, description, task, tasks, setTasks }) => {
 			<p className="text-m p-2 text-slate-700 font-light">
 				{description}
 			</p>
-			<div className="flex justify-end m-2 gap-2 pr-4 pb-3">
-				<Button
-					onClick={() => {
-						handleEditInputChange();
-					}}
-					icon={<EditOutlined />}
-					className="border-none"
-				></Button>
-				<Button
-					onClick={() => {
-						handleRemoveTask(task.id);
-					}}
-					icon={<DeleteOutlined />}
-					className="border-none text-red-600"
-				></Button>
+
+			<div className="flex  m-2 gap-2 pr-4 pb-3 justify-between items-center">
+				<a
+					onClick={() => handleSubmit(task)}
+					className={`${
+						task.status === "closed"
+							? "text-green-700"
+							: "text-red-700"
+					} text-sm font-normal uppercase`}
+				>
+					{task.status === "closed" ? "Completed" : "Incompleted"}
+				</a>
+				<div className="flex items-center justify-end">
+					<Button
+						onClick={() => {
+							handleEditInputChange();
+						}}
+						icon={<EditOutlined />}
+						className="border-none  "
+					></Button>
+					<Button
+						onClick={() => {
+							handleRemoveTask(task.id);
+						}}
+						icon={<DeleteOutlined />}
+						className="border-none text-red-600"
+					></Button>
+				</div>
 
 				{isEditingModal && (
 					<EditModalComponent
